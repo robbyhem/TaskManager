@@ -1,0 +1,257 @@
+﻿@{
+    var email = User.Identity?.Name;
+    var userName = email?.Split('@')[0];
+    var userRole = User.IsInRole("Admin") ? "Admin" : User.IsInRole("User") ? "User" : "Guest";
+
+    var greeting = $"Welcome {userName} ({userRole.ToUpper()} Dashboard)";
+
+    // @if (User.IsInRole("Admin"))
+    // {
+    //     ViewData["Title"] = "Admin Page";
+    // }
+    // @if (User.IsInRole("User"))
+    // {
+    //     ViewData["Title"] = "User Page";
+    // }
+    ViewData["Title"] = greeting;
+}
+
+<h1 class="py">@ViewData["Title"]</h1>
+
+<div class="dashboard py-5">
+    @if (Model.UserRole == "Admin")
+    {
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-bg-primary mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-users"></i><span>@Model.TotalUsers Employees</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-success mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-tasks"></i><span>@Model.TotalTasks All Tasks</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-warning mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-window-close-o"></i><span>@Model.OverdueTasks Overdue</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-danger mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-clock-o"></i><span>@Model.NoDeadlineTasks No Deadline</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-primary mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-exclamation-triangle"></i><span>@Model.TodayDueTasks Due Today</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-success mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-bell"></i><span>@Model.OverdueTasks Notifications</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-warning mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-square-o"></i><span>@Model.PendingTasks Pending</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-danger mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-spinner"></i><span>@Model.InProgressTasks In Progress</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-danger mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-check-square-o"></i><span>@Model.CompletedTasks Completed</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-bg-primary mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-users"></i><span>@Model.MyTasks My Tasks</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-success mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-tasks"></i><span>@Model.OverdueTasks Overdue</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-warning mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-window-close-o"></i><span>@Model.NoDeadlineTasks No Deadline</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-danger mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-clock-o"></i><span>@Model.PendingTasks Pending</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-primary mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-exclamation-triangle"></i><span>@Model.InProgressTasks In Progress</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-bg-success mb-3">
+                    <div class="card-body text-center">
+                        <div class="dashboard-item"><i class="fa fa-bell"></i><span>@Model.CompletedTasks Completed</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const active = document.querySelector("#navList li:nth-child(1)");
+            if (active) active.classList.add("active");
+        });
+    </script>
+}
+
+
+
+
+@* <h2>Dashboard</h2>
+
+@if (Model.UserRole == "admin")
+{
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-body text-center">
+                    <h4>@Model.TotalTasks</h4>
+                    <p>Total Tasks</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-success mb-3">
+                <div class="card-body text-center">
+                    <h4>@Model.TotalUsers</h4>
+                    <p>Total Users</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-warning mb-3">
+                <div class="card-body text-center">
+                    <h4>@Model.TodayDueTasks</h4>
+                    <p>Tasks Due Today</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-danger mb-3">
+                <div class="card-body text-center">
+                    <h4>@Model.OverdueTasks</h4>
+                    <p>Overdue Tasks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-body text-center">
+                    <h4>@Model.MyTasks</h4>
+                    <p>My Tasks</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-danger mb-3">
+                <div class="card-body text-center">
+                    <h4>@Model.OverdueTasks</h4>
+                    <p>Overdue</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Shared section for all users -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-bg-secondary mb-3">
+            <div class="card-body text-center">
+                <h4>@Model.PendingTasks</h4>
+                <p>Pending</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-bg-warning mb-3">
+            <div class="card-body text-center">
+                <h4>@Model.InProgressTasks</h4>
+                <p>In Progress</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-bg-success mb-3">
+            <div class="card-body text-center">
+                <h4>@Model.CompletedTasks</h4>
+                <p>Completed</p>
+            </div>
+        </div>
+    </div>
+</div> *@

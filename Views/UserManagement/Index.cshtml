@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TaskManager.ViewModels.RegisterViewModel>
+
+
+
+
+
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="container mt-4">
+    @* <div>
+        <a asp-action="Create" class="btn btn-primary">Add User</a>
+    </div> *@
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    @* <th>Role</th>
+                    <th>Actions</th> *@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        @* <td>@user.Role</td>
+                        <td>
+                        </td> *@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h5 class="mt-4 text-center text-muted">No user found.</h5>
+    }
+</div>

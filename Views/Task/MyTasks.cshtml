@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TaskManager.ViewModels.TaskViewModel>
+@{
+    ViewData["Title"] = "My Tasks";
+}
+
+<h2>My Tasks</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Info"] != null)
+{
+    <div class="alert alert-info">@TempData["Info"]</div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                foreach (var task in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@task.Title</td>
+                        <td>@task.Description</td>
+                        <td>@task.Status</td>
+                        <td>@task.Deadline.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <a asp-action="UpdateTask" asp-route-id="@task.Id" class="btn btn-sm btn-warning">Edit</a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h4>No tasks assigned yet.</h4>
+}

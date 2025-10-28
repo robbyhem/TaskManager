@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TaskManager.Models
+
+@inject SignInManager<Users> SignInManager
+@inject UserManager<Users> UserManager
+
+<div class="sidebar-header text-center py-5">
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <div class="small text-muted">
+            <ul class="navbar-nav ms-auto align-baseline align-items-center">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="nav-link btn btn-link text-dark p-0">Logout</button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-action="Register" asp-controller="Account">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-action="Login" asp-controller="Account">Login</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,49 @@
+﻿@using TaskManager.ViewModels;
+@model LoginViewModel;
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="account-container">
+    <div class="account-box">
+        <h2 class="text-center mb-4">Login</h2>
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" class="form-control" aria-required="true" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="float-end">
+                <a class="text-decoration-none" asp-controller="Account" asp-action="verifyEmail">Forgot your password?</a>
+            </div>
+            <div class="form-check mb-3">
+                <label asp-for="RememberMe" class="form-label">
+                    <input class="form-check-input" asp-for="RememberMe" />
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+            <input type="submit" value="Login" class="btn btn-success w-100 p-2" />
+            <p class="text-center mt-2">
+                Don't have an account? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Register as a new user</a>
+            </p>
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}
