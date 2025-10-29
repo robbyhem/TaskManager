@@ -50,6 +50,7 @@ namespace TaskManager.Controllers
 
             var taskViewModels = tasks.Select((t, index) => new TaskViewModel
             {
+                Id = t.Id,
                 Title = t.Title,
                 Description = t.Description,
                 Deadline = t.Deadline,
@@ -65,7 +66,7 @@ namespace TaskManager.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
             // Fetch users from database for dropdown list
             //var users = await _userManager.Users.OrderBy(u => u.FullName).ToListAsync();
@@ -106,7 +107,96 @@ namespace TaskManager.Controllers
             return RedirectToAction(nameof(Create));
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> Edit(int id)
+        //{
+        //    var task = await _context.Taskss.FindAsync(id);
 
+        //    var users = await _userManager.GetUsersInRoleAsync("User");
+        //    ViewBag.Users = new SelectList(users, "Id", "FullName");
+
+        //    return View(task);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(TaskViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var users = await _userManager.GetUsersInRoleAsync("User");
+        //        ViewBag.Users = new SelectList(users, "Id", "FullName");
+
+        //        return View(model);
+        //    }
+
+        //    var task = await _context.Taskss.FirstOrDefaultAsync(t => t.Id == model.Id);
+        //    if (task == null)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    // Update properties
+        //    task.Title = model.Title;
+        //    task.Description = model.Description;
+        //    task.AssignedTo = model.AssignedTo;
+        //    task.Deadline = model.Deadline;
+
+        //    await _context.SaveChangesAsync();
+
+        //    TempData["Success"] = "Task updated successfully.";
+        //    return RedirectToAction(nameof(Edit), new { id = model.Id });
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                TempData["Error"] = "Invalid task ID.";
+                return RedirectToAction("Index");
+            }
+
+            var task = await _context.Taskss
+                .Include(t => t.AssignedToUser)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (task == null)
+                return NotFound();
+
+            var assignedUser = await _userManager.FindByIdAsync(task.AssignedTo);
+
+            var viewModel = new TaskViewModel
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                AssignedToUser = task.AssignedToUser,
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var task = await _context.Taskss.FindAsync(id);
+            if (task == null)
+            {
+                TempData["Error"] = "Task not found.";
+                return RedirectToAction("Index");
+            }
+
+            _context.Taskss.Remove(task);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Task deleted successfully.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        /*--------------------------------------------------------------------
+          --------------------------------------------------------------------*/
 
         [Authorize(Roles = "User")]
         public async Task<IActionResult> MyTasks()
@@ -200,5 +290,8 @@ namespace TaskManager.Controllers
 
             //return RedirectToAction("MyTask", "EmployeeTask");
         }
+
+
+        
     }
 }
