@@ -20,53 +20,6 @@ namespace TaskManager.Controllers
             var userRole = User.IsInRole("Admin") ? "admin" : "user";
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-
-            //var model = new HomeViewModel
-            //{
-            //    UserRole = userRole
-            //};
-
-            //if (userRole == "admin")
-            //{
-            //    // ===== ADMIN DASHBOARD =====
-            //    model.TodayDueTasks = await _context.Taskss
-            //        .CountAsync(t => t.Deadline.Date == DateTime.Today);
-            //    model.OverdueTasks = await _context.Taskss.CountAsync(t => t.Deadline < DateTime.Today);
-            //    model.NoDeadlineTasks = await _context.Taskss.CountAsync(t => t.Deadline == null);
-            //    model.TotalTasks = await _context.Taskss.CountAsync();
-            //    model.TotalUsers = await _context.Users.CountAsync();
-            //    model.PendingTasks = await _context.Taskss.CountAsync(t => t.Status == "Pending");
-            //    model.InProgressTasks = await _context.Taskss.CountAsync(t => t.Status == "In Progress");
-            //    model.CompletedTasks = await _context.Taskss.CountAsync(t => t.Status == "Completed");
-            //}
-            //else
-            //{
-            //    // ===== USER DASHBOARD =====
-            //    //int parsedUserId = int.Parse(userId);
-
-            //    //model.MyTasks = await _context.Taskss
-            //    //    .CountAsync(t => t.AssignedTo == parsedUserId);
-            //    //model.OverdueTasks = await _context.Taskss
-            //    //    .CountAsync(t => t.AssignedTo == parsedUserId && t.Deadline < DateTime.Today);
-            //    //model.NoDeadlineTasks = await _context.Taskss
-            //    //    .CountAsync(t => t.AssignedTo == parsedUserId && t.Deadline == null);
-            //    //model.PendingTasks = await _context.Taskss
-            //    //    .CountAsync(t => t.AssignedTo == parsedUserId && t.Status == "Pending");
-            //    //model.InProgressTasks = await _context.Taskss
-            //    //    .CountAsync(t => t.AssignedTo == parsedUserId && t.Status == "In Progress");
-            //    //model.CompletedTasks = await _context.Taskss
-            //    //    .CountAsync(t => t.AssignedTo == parsedUserId && t.Status == "Completed");
-
-
-            //    model.MyTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId);
-            //    model.OverdueTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Deadline < DateTime.Today);
-            //    model.NoDeadlineTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Deadline == null);
-            //    model.PendingTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status == "Pending");
-            //    model.InProgressTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status == "In Progress");
-            //    model.CompletedTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status == "Completed");
-            //}
-
-
             var viewModel = new HomeViewModel();
 
             // Check if the logged-in user is an Admin
@@ -86,9 +39,9 @@ namespace TaskManager.Controllers
                 viewModel.NoDeadlineTasks = await _context.Taskss.CountAsync(t => t.Deadline == null);
 
                 // Task status categories
-                viewModel.PendingTasks = await _context.Taskss.CountAsync(t => t.Status == "Pending");
-                viewModel.InProgressTasks = await _context.Taskss.CountAsync(t => t.Status == "In Progress");
-                viewModel.CompletedTasks = await _context.Taskss.CountAsync(t => t.Status == "Completed");
+                viewModel.PendingTasks = await _context.Taskss.CountAsync(t => t.Status.ToLower() == "Pending");
+                viewModel.InProgressTasks = await _context.Taskss.CountAsync(t => t.Status.ToLower() == "In Progress");
+                viewModel.CompletedTasks = await _context.Taskss.CountAsync(t => t.Status.ToLower() == "Completed");
             }
             else
             {
@@ -99,9 +52,9 @@ namespace TaskManager.Controllers
                 viewModel.MyTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId);
                 viewModel.OverdueTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Deadline < DateTime.Today);
                 viewModel.NoDeadlineTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Deadline == null);
-                viewModel.PendingTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status == "Pending");
-                viewModel.InProgressTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status == "In Progress");
-                viewModel.CompletedTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status == "Completed");
+                viewModel.PendingTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status.ToLower() == "Pending");
+                viewModel.InProgressTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status.ToLower() == "In Progress");
+                viewModel.CompletedTasks = await _context.Taskss.CountAsync(t => t.AssignedTo == userId && t.Status.ToLower() == "Completed");
             }
 
             return View(viewModel);
