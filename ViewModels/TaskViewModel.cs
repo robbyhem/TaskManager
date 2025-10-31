@@ -28,6 +28,11 @@ namespace TaskManager.ViewModels
         public Users AssignedToUser { get; set; }
 
 
+        [Required(ErrorMessage = "Task proirity is required")]
+        [Display(Name = "Task Priority")]
+        public string Priority { get; set; }
+
+
         [Required(ErrorMessage = "Status is required")]
         [DataType(DataType.Date)]
         public string Status { get; set; }
@@ -37,6 +42,8 @@ namespace TaskManager.ViewModels
         [DataType(DataType.Date)]
         public DateTime Deadline { get; set; }
 
+        [Display(Name = "Created On")]
+        [DataType(DataType.Date)]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
 

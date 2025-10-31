@@ -1,0 +1,104 @@
+﻿@using TaskManager.ViewModels;
+@model EmployeePerformanceViewModel;
+
+@{
+    ViewData["Title"] = "Admin Performance Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Team Performance Overview</h2>
+
+    <!-- FILTERS -->
+    <form asp-action="AdminOverview" method="get" class="mb-4 row">
+        <div class="col-md-3">
+            <label>User</label>
+            <select name="userId" class="form-select">
+                <option value="">All Users</option>
+                @foreach (var user in Model.UserList)
+                {
+                    <option value="@user.Id" selected="@(user.Id == Model.SelectedUserId)">
+                        @user.FullName
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label>Start Date</label>
+            <input type="date" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+
+        <div class="col-md-3">
+            <label>End Date</label>
+            <input type="date" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+
+    <!-- SUMMARY CARDS -->
+    <div class="row text-center mb-4">
+        <div class="col-md-2"><div class="card p-3 bg-light"><strong>Total</strong><br>@Model.TotalTasks</div></div>
+        <div class="col-md-2"><div class="card p-3 bg-warning"><strong>Pending</strong><br>@Model.PendingTasks</div></div>
+        <div class="col-md-2"><div class="card p-3 bg-info"><strong>In Progress</strong><br>@Model.InProgressTasks</div></div>
+        <div class="col-md-2"><div class="card p-3 bg-success"><strong>Completed</strong><br>@Model.CompletedTasks</div></div>
+        <div class="col-md-2"><div class="card p-3 bg-danger"><strong>Overdue</strong><br>@Model.OverdueTasks</div></div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h5>Task Distribution</h5>
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h5>Tasks Completed per User</h5>
+                <canvas id="userChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Task Distribution (Pie Chart)
+        new Chart(document.getElementById("statusChart"), {
+            type: 'pie',
+            data: {
+                labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartLabels)),
+                datasets: [{
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartData)),
+                    backgroundColor: ['#f39c12', '#3498db', '#2ecc71', '#e74c3c']
+                }]
+            },
+            options: {
+                plugins: { title: { display: true, text: 'Overall Task Distribution' } },
+                responsive: true
+            }
+        });
+
+        // User Performance (Bar Chart)
+        new Chart(document.getElementById("userChart"), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.UserNames)),
+                datasets: [{
+                    label: 'Tasks Completed',
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeeklyCompletedTasks)),
+                    backgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                plugins: { title: { display: true, text: 'Team Completion Performance' } },
+                scales: { y: { beginAtZero: true } },
+                responsive: true
+            }
+        });
+    </script>
+}

@@ -23,6 +23,7 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Status</th>
+                <th>Priority</th>
                 <th>Due Date</th>
                 <th>Action</th>
             </tr>
@@ -36,7 +37,46 @@
                         <td>@i</td>
                         <td>@task.Title</td>
                         <td>@task.Description</td>
-                        <td>@task.Status</td>
+                        <td>
+                            @if (task.Status == "Pending")
+                            {
+                                <span class="badge bg-primary">Pending</span>
+                            }
+                            else if (task.Status == "In Progress")
+                            {
+                                <span class="badge bg-warning text-dark">In Progress</span>
+                            }
+                            else if (task.Status == "Completed")
+                            {
+                                <span class="badge bg-success">Completed</span>
+                            }
+                            else if (task.Status == "Overdue")
+                            {
+                                <span class="badge bg-danger text-dark">Overdue</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">None</span>
+                            }
+                        </td>
+                        <td>
+                            @if (task.Priority == "High")
+                            {
+                                <span class="badge bg-danger">High</span>
+                            }
+                            else if (task.Priority == "Medium")
+                            {
+                                <span class="badge bg-warning text-dark">Medium</span>
+                            }
+                            else if (task.Priority == "Low")
+                            {
+                                <span class="badge bg-success">Low</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">None</span>
+                            }
+                        </td>
                         <td>@task.Deadline.ToString("yyyy-MM-dd")</td>
                         <td>
                             <a asp-action="UpdateTask" asp-route-id="@task.Id" class="btn btn-sm btn-warning">Edit</a>

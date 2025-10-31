@@ -44,6 +44,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Task" asp-action="Index">All Tasks</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Task" asp-action="EmployeeReport">Employee Report</a>
+                                </li>
                             }
                             @if (User.IsInRole("User"))
                             {
@@ -51,7 +54,7 @@
                                     <a class="nav-link" asp-controller="Task" asp-action="MyTasks">My Task</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Overview" asp-action="Index">Overview</a>
+                                    <a class="nav-link" asp-controller="Task" asp-action="EmployeeOverview">Overview</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Notifications" asp-action="Index">Notifications</a>

@@ -24,7 +24,6 @@ namespace TaskManager.Data
                 await AddRoleAsync(roleManager, "Admin");
                 await AddRoleAsync(roleManager, "User");
 
-
                 //Add admin user
                 logger.LogInformation("Seeding user.");
                 var adminEmail = "admin@finsburyheinz.com";

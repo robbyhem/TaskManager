@@ -1,0 +1,101 @@
+﻿@using TaskManager.ViewModels;
+@model EmployeePerformanceViewModel;
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<div class="row">
+    <!-- Dashboard Content -->
+    <div class="col-md-9 p-4">
+        <h2>Overview</h2>
+
+        <div class="card mb-3">
+            <div class="card-header">Task Report Summary</div>
+            <div class="card-body">
+                <p><strong>Total Tasks:</strong> @Model.TotalTasks</p>
+                <p><strong>In Progress:</strong> @Model.InProgressTasks</p>
+                <p><strong>Completed:</strong> @Model.CompletedTasks</p>
+                <p><strong>Overdue:</strong> @Model.OverdueTasks</p>
+            </div>
+        </div>
+
+        <!-- overall Performance Pie Chart -->
+        <div class="card">
+            <div class="card-header">My Performance</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <canvas id="taskChart"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Completion Rate:</strong> @Model.CompletionRate %</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Bar Chart -->
+        <div class="card">
+            <div class="card-header">Weekly Task Completion Trend</div>
+            <div class="card-body">
+                <canvas id="weeklyChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Pie Chart (overall Completion Rate Performance)
+        const ctx = document.getElementById('taskChart').getContext('2d');
+        const taskChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartLabels)),
+                datasets: [{
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartData)),
+                    backgroundColor: ['#f39c12', '#3498db', '#2ecc71', '#e74c3c']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    title: { display: true, text: 'Task Distribution' }
+                }
+            }
+        });
+
+        // Bar Chart (Weekly Task Completion)
+        const ctxBar = document.getElementById('weeklyChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeeklyLabels)),
+                datasets: [{
+                    label: 'Tasks Completed',
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeeklyCompletedTasks)),
+                    backgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Weekly Task Completion Trend' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Tasks' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Week Starting' }
+                    }
+                }
+            }
+        });
+    </script>
+}
+
