@@ -150,46 +150,7 @@ namespace TaskManager.Controllers
             return RedirectToAction(nameof(Create));
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //    var task = await _context.Taskss.FindAsync(id);
-
-        //    var users = await _userManager.GetUsersInRoleAsync("User");
-        //    ViewBag.Users = new SelectList(users, "Id", "FullName");
-
-        //    return View(task);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(TaskViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var users = await _userManager.GetUsersInRoleAsync("User");
-        //        ViewBag.Users = new SelectList(users, "Id", "FullName");
-
-        //        return View(model);
-        //    }
-
-        //    var task = await _context.Taskss.FirstOrDefaultAsync(t => t.Id == model.Id);
-        //    if (task == null)
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    // Update properties
-        //    task.Title = model.Title;
-        //    task.Description = model.Description;
-        //    task.AssignedTo = model.AssignedTo;
-        //    task.Deadline = model.Deadline;
-
-        //    await _context.SaveChangesAsync();
-
-        //    TempData["Success"] = "Task updated successfully.";
-        //    return RedirectToAction(nameof(Edit), new { id = model.Id });
-        //}
+        
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
