@@ -150,7 +150,62 @@ namespace TaskManager.Controllers
             return RedirectToAction(nameof(Create));
         }
 
-        
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var task = await _context.Taskss.FindAsync(id);
+
+            var users = await _userManager.GetUsersInRoleAsync("User");
+            ViewBag.Users = new SelectList(users, "Id", "FullName");
+
+            //return View(task);
+
+
+            var model = new TaskViewModel
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                Priority = task.Priority,
+                Deadline = task.Deadline,
+                AssignedTo = task.AssignedToUser != null ? task.AssignedToUser.FullName : "Unassigned",
+            };
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(TaskViewModel modifiedTask)
+        {
+            if (ModelState.IsValid)
+            {
+                var users = await _userManager.GetUsersInRoleAsync("User");
+                ViewBag.Users = new SelectList(users, "Id", "FullName");
+
+                return View(modifiedTask);
+            }
+
+            var task = await _context.Taskss.FirstOrDefaultAsync(t => t.Id == modifiedTask.Id);
+            if (task == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // Update properties
+            task.Title = modifiedTask.Title;
+            task.Description = modifiedTask.Description;
+            task.AssignedTo = modifiedTask.AssignedTo;
+            task.Priority = modifiedTask.Priority;
+            task.Deadline = modifiedTask.Deadline;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Task updated successfully.";
+            return RedirectToAction(nameof(Edit), new { id = modifiedTask.Id });
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]

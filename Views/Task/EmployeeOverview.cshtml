@@ -5,9 +5,9 @@
     ViewData["Title"] = "Overview";
 }
 
-<div class="row">
+<div class="container mt-4">
     <!-- Dashboard Content -->
-    <div class="col-md-9 p-4">
+    <div class="p-4">
         <h2>Overview</h2>
 
         <div class="card mb-3">
@@ -20,28 +20,32 @@
             </div>
         </div>
 
-        <!-- overall Performance Pie Chart -->
-        <div class="card">
-            <div class="card-header">My Performance</div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 text-center">
-                        <canvas id="taskChart"></canvas>
-                    </div>
-                    <div class="col-md-6">
-                        <p><strong>Completion Rate:</strong> @Model.CompletionRate %</p>
+        
+        <div class="row">
+            <!-- overall Performance Pie Chart -->
+            <div class="card col-md-6">
+                <div class="card-header">My Performance</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <canvas id="taskChart"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Completion Rate:</strong> @Model.CompletionRate %</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Weekly Bar Chart -->
-        <div class="card">
-            <div class="card-header">Weekly Task Completion Trend</div>
-            <div class="card-body">
-                <canvas id="weeklyChart"></canvas>
+            <!-- Weekly Bar Chart -->
+            <div class="card col-md-6">
+                <div class="card-header">Weekly Task Completion Trend</div>
+                <div class="card-body">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
             </div>
         </div>
+        
     </div>
 </div>
 

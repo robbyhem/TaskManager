@@ -5,60 +5,52 @@
     ViewData["Title"] = "Edit Task";
 }
 
-<div class="container mt-4">
-    <h3>Edit Task</h3>
+<h2>Edit Task</h2>
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">@TempData["Success"]</div>
-    }
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">@TempData["Error"]</div>
-    }
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["Success"]</div>
+}
 
-    <form asp-action="Edit" method="post">
-        <input type="hidden" asp-for="Id" />
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
 
-        <div class="form-group mb-3">
-            <label asp-for="Title"></label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
+    <div class="form-group mb-3">
+        <label>Title</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
 
-        <div class="form-group mb-3">
-            <label asp-for="Description"></label>
-            <textarea asp-for="Description" class="form-control"></textarea>
-        </div>
+    <div class="form-group mb-3">
+        <label>Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
 
-        <div class="form-group mb-3">
-            <label asp-for="Deadline"></label>
-            <input asp-for="Deadline" type="date" class="form-control" />
-        </div>
+    <div class="form-group mb-3">
+        <label asp-for="AssignedTo"></label>
+        <select asp-for="AssignedTo" asp-items="ViewBag.Users" class="form-control">
+            <option value="">-- Select User --</option>
+        </select>
+        <span asp-validation-for="AssignedTo" class="text-danger"></span>
+    </div>
 
-        <div class="form-group mb-3">
-            <label asp-for="Status"></label>
-            <select asp-for="Status" class="form-control">
-                <option value="Pending">Pending</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
-            </select>
-        </div>
+    <div class="form-group mb-3">
+        <label>Priority</label>
+        <select asp-for="Priority" class="form-control">
+            <option value="">-- Select Priority --</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+    </div>
 
-        <div class="form-group mb-3">
-            <label asp-for="Priority"></label>
-            <select asp-for="Priority" class="form-control">
-                @foreach (var p in (List<string>)ViewBag.PriorityList)
-                {
-                    <option value="@p">@p</option>
-                }
-            </select>
-        </div>
+    <div class="form-group mb-3">
+        <label asp-for="Deadline"></label>
+        <input asp-for="Deadline" class="form-control" type="date" />
+    </div>
 
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a asp-action="Index" class="btn btn-secondary">Back</a>
-    </form>
-</div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="MyTasks" class="btn btn-secondary">Back</a>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

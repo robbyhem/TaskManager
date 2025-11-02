@@ -11,7 +11,7 @@
 <body>
 
     <nav class="sidebar bg-light border-end vh-100 position-fixed">
-            <div class="sidebar-header text-center py-4">
+            <div class="sidebar-header text-center p-5">
                 <h4 class="fw-bold text-primary">Finsbury Heinz</h4>
                 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -30,9 +30,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
                             </li>
-                            @* <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">User Management</a>
-                            </li> *@
+                            
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
@@ -66,7 +64,7 @@
                     
                 </div>
             </div>
-        </nav>
+    </nav>
     
     <div class="container">
         <main role="main" class="pb-3">

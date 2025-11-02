@@ -3,7 +3,7 @@
     ViewData["Title"] = "My Tasks";
 }
 
-<h2>My Tasks</h2>
+<h2 class="mt-4">My Tasks</h2>
 
 @if (TempData["Success"] != null)
 {
@@ -16,7 +16,7 @@
 
 @if (Model != null && Model.Any())
 {
-    <table class="table table-bordered">
+    <table class="table table-bordered mt-4">
         <thead>
             <tr>
                 <th>S/N</th>
