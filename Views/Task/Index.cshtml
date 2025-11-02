@@ -95,7 +95,11 @@
                             <td>@task.Description</td>
                             <td>@task.AssignedTo</td>
                             <td>
-                                @if (task.Priority == "High")
+                                @if (task.Priority == "Critical")
+                                {
+                                    <span class="badge bg-black">Critical</span>
+                                }
+                                else if (task.Priority == "High")
                                 {
                                     <span class="badge bg-danger">High</span>
                                 }
@@ -146,6 +150,8 @@
                 }
             </tbody>
         </table>
+        <!-- Back Button -->
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back</a>
     }
     else
     {

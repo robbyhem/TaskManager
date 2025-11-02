@@ -107,7 +107,7 @@ namespace TaskManager.Controllers
 
             // Pass lists for filters
             ViewBag.StatusList = new List<string> { "All", "Pending", "In Progress", "Completed" };
-            ViewBag.PriorityList = new List<string> { "All", "High", "Medium", "Low" };
+            ViewBag.PriorityList = new List<string> { "All", "Critical", "High", "Medium", "Low" };
             ViewBag.UserList = new SelectList(await _context.Users.ToListAsync(), "Id", "FullName");
 
             ViewBag.HeaderText = headerText;
