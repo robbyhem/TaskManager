@@ -9,9 +9,9 @@
         <span>@ViewBag.HeaderText (@ViewBag.TaskCount)</span>
         <div>
             <a asp-action="Create" class="btn btn-primary">Create Task</a>
-            <a asp-action="Index" asp-route-due_date="Due Today" class="btn btn-outline-secondary">Due Today</a>
-            <a asp-action="Index" asp-route-due_date="Overdue" class="btn btn-outline-secondary">Overdue</a>
-            <a asp-action="Index" asp-route-due_date="No Deadline" class="btn btn-outline-secondary">No Deadline</a>
+            <a asp-action="Index" asp-route-deadline="Due Today" class="btn btn-outline-secondary">Due Today</a>
+            <a asp-action="Index" asp-route-deadline="Overdue" class="btn btn-outline-secondary">Overdue</a>
+            <a asp-action="Index" asp-route-deadline="No Deadline" class="btn btn-outline-secondary">No Deadline</a>
             <a asp-action="Index" class="btn btn-outline-secondary">All Tasks</a>
         </div>
     </h4>
@@ -39,7 +39,7 @@
 
         <div class="col-md-3">
             <label>Priority</label>
-            <select name="prority" class="form-control" onchange="this.form.submit()">
+            <select name="priority" class="form-control" onchange="this.form.submit()">
                 @foreach (var priority in ViewBag.PriorityList as List<string>)
                 {
                     <option value="@priority">@priority</option>
@@ -60,7 +60,7 @@
 
         <div class="col-md-4">
             <label>Search</label>
-            <input type="text" name="search" class="form-control" placeholder="Search by title or description" />
+            <input type="text" name="search" class="form-control" placeholder="Search by name, title or description" />
         </div>
 
         <div class="col-md-2 d-flex align-items-end">
@@ -116,7 +116,7 @@
                                     <span class="badge bg-secondary">None</span>
                                 }
                             </td>
-                            <td>@(task.Deadline.ToString("yyyy-MM-dd") ?? "No Deadline")</td>
+                            <td>@(task.Deadline?.ToString("yyyy-MM-dd") ?? "No Deadline")</td>
                             <td>
                                 @if (task.Status == "Pending")
                                 {

@@ -16,7 +16,7 @@
         <h5>@Model.Title</h5>
         <p>@Model.Description</p>
         <p><strong>Assigned To:</strong> @Model.AssignedToUser.FullName</p>
-        <p><strong>Due Date:</strong> @Model.Deadline.ToString("yyyy-MM-dd")</p>
+        <p><strong>Due Date:</strong> @Model.Deadline?.ToString("yyyy-MM-dd") ?? "No Deadline"</p>
     </div>
 
     <form asp-action="Delete" method="post" class="mt-3">

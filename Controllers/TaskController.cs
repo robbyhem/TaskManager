@@ -27,15 +27,15 @@ namespace TaskManager.Controllers
             {
                 switch (deadline)
                 {
-                    case "Due Date":
+                    case "Due Today":
                         query = query.Where(t => t.Deadline != null &&
-                                                 t.Deadline.Date > DateTime.Now);
+                                                 t.Deadline.Value.Date == DateTime.Today);
                         headerText = "Tasks Due Today";
                         break;
 
                     case "Overdue":
                         query = query.Where(t => t.Deadline != null &&
-                                                 t.Deadline.Date < DateTime.Today);
+                                                 t.Deadline.Value.Date < DateTime.Today);
                         headerText = "Overdue Tasks";
                         break;
 
@@ -60,12 +60,15 @@ namespace TaskManager.Controllers
 
             // --- SEARCH BY TITLE OR DESCRIPTION ---
             if (!string.IsNullOrEmpty(search))
-                query = query.Where(t => t.Title.Contains(search) || t.Description.Contains(search));
+                query = query.Where(t => t.Title.Contains(search) ||
+                t.Description.Contains(search) ||
+                (t.AssignedToUser != null && t.AssignedToUser.FullName.ToLower().Contains(search)));
 
             // --- SORTING ---
             ViewBag.TitleSort = sortOrder == "title_asc" ? "title_desc" : "title_asc";
             ViewBag.DateSort = sortOrder == "date_asc" ? "date_desc" : "date_asc";
             ViewBag.StatusSort = sortOrder == "status_asc" ? "status_desc" : "status_asc";
+            ViewBag.PrioritySort = sortOrder == "priority_asc" ? "priority_desc" : "priority_asc";
 
             switch (sortOrder)
             {
@@ -86,6 +89,12 @@ namespace TaskManager.Controllers
                     break;
                 case "status_asc":
                     query = query.OrderBy(t => t.Status);
+                    break;
+                case "priority_desc":
+                    query = query.OrderByDescending(t => t.Priority);
+                    break;
+                case "priority_asc":
+                    query = query.OrderBy(t => t.Priority);
                     break;
                 default:
                     query = query.OrderBy(t => t.Deadline);

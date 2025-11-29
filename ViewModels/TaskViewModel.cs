@@ -38,9 +38,9 @@ namespace TaskManager.ViewModels
         public string Status { get; set; }
 
 
-        [Required(ErrorMessage = "Deadline is required")]
+        //[Required(ErrorMessage = "Deadline is required")]
         [DataType(DataType.Date)]
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
 
         [Display(Name = "Created On")]
         [DataType(DataType.Date)]

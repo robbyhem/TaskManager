@@ -13,7 +13,7 @@ namespace TaskManager.Models
         [ForeignKey(nameof(AssignedTo))]
         public Users AssignedToUser { get; set; }
         public string Priority { get; set; }
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }

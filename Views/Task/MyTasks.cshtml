@@ -81,7 +81,7 @@
                                 <span class="badge bg-secondary">None</span>
                             }
                         </td>
-                        <td>@task.Deadline.ToString("yyyy-MM-dd")</td>
+                        <td>@task.Deadline?.ToString("yyyy-MM-dd") ?? "No Deadline"</td>
                         <td>
                             <a asp-action="UpdateTask" asp-route-id="@task.Id" class="btn btn-sm btn-warning">Edit</a>
                         </td>

@@ -30,7 +30,7 @@ namespace TaskManager.Controllers
                 viewModel.TotalUsers = await _context.Users.CountAsync();
 
                 // Tasks Due Today
-                viewModel.TodayDueTasks = await _context.Taskss.CountAsync(t => t.Deadline != null && t.Deadline.Date == DateTime.Today);
+                viewModel.TodayDueTasks = await _context.Taskss.CountAsync(t => t.Deadline.HasValue && t.Deadline.Value.Date == DateTime.Today);
 
                 // Overdue Tasks
                 viewModel.OverdueTasks = await _context.Taskss.CountAsync(t => t.Deadline < DateTime.Today && t.Status != "Completed");

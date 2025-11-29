@@ -5,7 +5,7 @@ namespace TaskManager.Data
 {
     public class SeedData
     {
-        public static async Task InitializeAsyn(IServiceProvider serviceProvider)
+        public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {
             using var scope = serviceProvider.CreateScope();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
